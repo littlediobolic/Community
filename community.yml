@@ -43,6 +43,7 @@
     - { role: filezilla, tags: ['filezilla'] }
     - { role: flaresolverr, tags: ['flaresolverr'] }
     - { role: funkwhale, tags: ['funkwhale'] }
+    - { role: gaps, tags: ['gaps'] }
     - { role: gazee, tags: ['gazee'] }
     - { role: gitea, tags: ['gitea'] }
     - { role: glances, tags: ['glances'] }
