@@ -50,7 +50,7 @@
       PGID: "{{ gid }}"
       VIRTUAL_HOST: "gaps.{{ user.domain }}"
       VIRTUAL_PORT: "8484"
-      VIRTUAL_PROTO: "https"
+      VIRTUAL_PROTO: "http"
       LETSENCRYPT_HOST: "gaps.{{ user.domain }}"
       LETSENCRYPT_EMAIL: "{{ user.email }}"
     volumes:
