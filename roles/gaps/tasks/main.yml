@@ -42,8 +42,6 @@
     name: gaps
     image: housewrecker/gaps:latest
     pull: yes
-    published_ports:
-      - "127.0.0.1:8484:8484"
     env:
       TZ: "{{ tz }}"
       PUID: "{{ uid }}"
@@ -64,5 +62,3 @@
     purge_networks: yes
     restart_policy: unless-stopped
     state: started
-
-#docker run -d -p 8484:8484 --name mygaps --expose 32400 -v /{localFolder}/gaps:/usr/data housewrecker/gaps:latest
