@@ -81,3 +81,6 @@ wordpress:
   subdomain: wordpress
 overseerr:
   subdomain: overseerr
+moviematch:
+  plex_url: http://yourplexurl:32400
+  plex_token: 

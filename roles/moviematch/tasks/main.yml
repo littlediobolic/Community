@@ -1,0 +1,55 @@
+#########################################################################
+# Title:            Community: Movie Match                              #
+# Author(s):        littlediobolic                                      #
+# URL:              https://github.com/Cloudbox/Community               #
+# Docker Image(s):  lukechannings/moviematch                            #
+# --                                                                    #
+#         Part of the Cloudbox project: https://cloudbox.works          #
+#########################################################################
+#                   GNU General Public License v3.0                     #
+#########################################################################
+---
+- name: "Set DNS Record on CloudFlare"
+  include_role:
+    name: cloudflare-dns
+  vars:
+    record: moviematch
+  when: cloudflare_enabled
+
+- name: Stop and remove any existing container
+  docker_container:
+    name: moviematch
+    state: absent
+
+- name: Create moviematch directories
+  file: "path={{ item }} state=directory mode=0775 owner={{ user.name }} group={{ user.name }}"
+  with_items:
+    - /opt/moviematch
+
+- name: Create and start container
+  docker_container:
+    name: moviematch
+    image: "lukechannings/moviematch:latest"
+    pull: yes
+    env:
+      TZ: "{{ tz }}"
+      PUID: "{{ uid }}"
+      PGID: "{{ gid }}"
+      VIRTUAL_HOST: "moviematch.{{ user.domain }}"
+      VIRTUAL_PORT: "8000"
+      LETSENCRYPT_HOST: "moviematch.{{ user.domain }}"
+      LETSENCRYPT_EMAIL: "{{ user.email }}"
+      PLEX_URL: "{{ moviematch.plex_url }}"
+      PLEX_TOKEN: "{{ moviematch.plex_token }}"
+    command: 
+    volumes:
+      - "/opt/moviematch:/config"
+    labels:
+      "com.github.cloudbox.cloudbox_managed": "true"
+    networks:
+      - name: cloudbox
+        aliases:
+          - moviematch
+    purge_networks: yes
+    restart_policy: unless-stopped
+    state: started
